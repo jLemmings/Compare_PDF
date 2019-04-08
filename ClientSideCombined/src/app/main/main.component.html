@@ -1,0 +1,119 @@
+<form [formGroup]="form">
+
+    <div class="content"
+         fxLayout="row"
+         fxLayout.xs="column"
+         fxFlexFill>
+        <div fxFlex="50" fxFlex.xs="50" style="position: relative">
+            <div class="form-group">
+                <p>
+                    Open first PDF
+                </p>
+                <input (change)="onFileSelected(pdf1); onFileChange1($event);" type="file" id="file1" #fileInput1>
+            </div>
+
+            <div *ngIf="error" class="error mb">
+                {{ error.message | json }}
+            </div>
+
+            <div *ngIf="!isLoaded && !error && progressData" id="progress1">
+                <div class="bg">
+                    <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
+                </div>
+                <span>{{ getInt(progressData.loaded / progressData.total * 100) }}%</span>
+            </div>
+        </div>
+
+        <div fxFlex="50" fxFlex.xs="50" style="position: relative">
+            <div class="form-group">
+                <p>
+                    Open second PDF
+                </p>
+                <input (change)="onFileSelected(pdf2); onFileChange2($event);" type="file" id="file2" #fileInput2>
+            </div>
+
+            <div *ngIf="error" class="error mb">
+                {{ error.message | json }}
+            </div>
+
+            <div *ngIf="!isLoaded && !error && progressData" id="progress2">
+                <div class="bg">
+                    <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
+                </div>
+                <span>{{ getInt(progressData.loaded / progressData.total * 100) }}%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content"
+         fxLayoutAlign="center"
+         fxLayout="row"
+         fxLayout.xs="column"
+         fxFlexFill>
+        <div class="example-button-row">
+            <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="compareDraftable()">Draftable</button>
+            <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="comparePdfDiff()">PDF compare</button>
+            <button mat-raised-button color="primary">Version3</button>
+            <button mat-raised-button color="primary">Version4</button>
+            <button mat-raised-button color="warn" (click)="clearFile();onFileSelected('');onFileSelected('')">Clear Files</button>
+        </div>
+    </div>
+
+    <div class="content"
+         fxLayout="row"
+         fxLayout.xs="column"
+         fxFlexFill>
+
+
+        <div fxFlex="50" fxFlex.xs="50" style="position: relative">
+            <div>
+                <pdf-viewer [src]="pdfSrc1"
+                            [(page)]="page"
+                            [rotation]="rotation"
+                            [original-size]="originalSize"
+                            [fit-to-page]="fitToPage"
+                            (after-load-complete)="afterLoadComplete($event)"
+                            [zoom]="zoom"
+                            [show-all]="showAll"
+                            [stick-to-page]="stickToPage"
+                            [render-text]="renderText"
+                            [external-link-target]="'blank'"
+                            [autoresize]="autoresize"
+                            [render-text-mode]="renderTextMode"
+                            (error)="onError($event)"
+                            (on-progress)="onProgress($event)"
+                            (page-rendered)="pageRendered($event)"
+                ></pdf-viewer>
+            </div>
+        </div>
+
+        <div fxFlex="50" style="position: relative">
+            <div>
+
+
+                <pdf-viewer [src]="pdfSrc2"
+                            [(page)]="page"
+                            [rotation]="rotation"
+                            [original-size]="originalSize"
+                            [fit-to-page]="fitToPage"
+                            (after-load-complete)="afterLoadComplete($event)"
+                            [zoom]="zoom"
+                            [show-all]="showAll"
+                            [stick-to-page]="stickToPage"
+                            [render-text]="renderText"
+                            [external-link-target]="'blank'"
+                            [autoresize]="autoresize"
+                            [render-text-mode]="renderTextMode"
+                            (error)="onError($event)"
+                            (on-progress)="onProgress($event)"
+                            (page-rendered)="pageRendered($event)"
+                ></pdf-viewer>
+            </div>
+        </div>
+
+    </div>
+
+
+    <hr>
+
+</form>

@@ -1,0 +1,5 @@
+.ng2-pdf-viewer-container > div { position: relative; }
+.example-button-row button,
+.example-button-row a {
+    margin-right: 8px;
+}
