@@ -11,11 +11,8 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.Duration;
-import java.util.Locale;
 import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
 public class DraftableCompare {
 
@@ -25,10 +22,7 @@ public class DraftableCompare {
     private static String authToken;
 
     public CompareJob draftableCompare(CompareJob compareJob) {
-        logger.info("Main started");
 
-        // String accountId = "EUCXvE-test"; // From https://api.draftable.com/account/credentials under "Account ID"
-        // String authToken = "fbf2f4107d0fa59e17cf86efc8d57c85"; // From the same page, under "Auth Token"
         connectDraftable();
 
         File leftFile = new File(String.valueOf(compareJob.getFile1()));
@@ -40,9 +34,6 @@ public class DraftableCompare {
         logger.info("Left Document: " + left);
         logger.info("Right Document: " + right);
 
-        logger.info("Left File exists: " + leftFile.exists());
-        logger.info("Right File exists: " + rightFile.exists());
-
 
         Comparisons comparisons = new Comparisons(accountId, authToken);
 
@@ -50,11 +41,8 @@ public class DraftableCompare {
         Comparison comparison;
         try {
             comparison = comparisons.createComparison(left, right);
-
             String viewerURL = comparisons.signedViewerURL(comparison.getIdentifier(), Duration.ofMinutes(30), false);
             compareJob.setCompareResultUrl(viewerURL);
-            System.out.println("Comparison created: " + comparison);
-            System.out.println("Viewer URL (expires in 30 min): " + viewerURL);
             logger.info("---COMPARISON COMPLETED---");
             logger.info("Comparison URL: " + viewerURL);
         } catch (IOException e) {

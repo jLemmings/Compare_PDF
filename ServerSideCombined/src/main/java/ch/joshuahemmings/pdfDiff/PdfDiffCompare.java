@@ -33,14 +33,14 @@ public class PdfDiffCompare {
             } else {
                 String path = System.getProperty("java.io.tmpdir");
                 System.out.println("File written to: " + path);
-                result.writeTo(path + "demo");
                 compareJob.setCompareResultFile(new File(path + "demo.pdf"));
-                // TODO: Delete temp
+                result.writeTo(path + "demo");
                 logger.info("Compared file path: " + compareJob.getCompareResultFile());
 
                 document = FileCopyUtils.copyToByteArray(compareJob.getCompareResultFile());
+                logger.info(document);
                 header.setContentType(new MediaType("application", "pdf"));
-                header.set("Content-Disposition", "inline; filename=" + compareJob.getCompareResultFile().getName());
+                header.set("Content-Disposition", "inline; filename=demo.pdf");
                 header.setContentLength(document.length);
                 logger.info(document);
             }

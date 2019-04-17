@@ -15,13 +15,6 @@
             <div *ngIf="error" class="error mb">
                 {{ error.message | json }}
             </div>
-
-            <div *ngIf="!isLoaded && !error && progressData" id="progress1">
-                <div class="bg">
-                    <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
-                </div>
-                <span>{{ getInt(progressData.loaded / progressData.total * 100) }}%</span>
-            </div>
         </div>
 
         <div fxFlex="50" fxFlex.xs="50" style="position: relative">
@@ -34,13 +27,6 @@
 
             <div *ngIf="error" class="error mb">
                 {{ error.message | json }}
-            </div>
-
-            <div *ngIf="!isLoaded && !error && progressData" id="progress2">
-                <div class="bg">
-                    <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
-                </div>
-                <span>{{ getInt(progressData.loaded / progressData.total * 100) }}%</span>
             </div>
         </div>
     </div>

@@ -21,13 +21,10 @@ public class CompareJobController {
 
     private static final Logger logger = LogManager.getLogger();
 
-    // TODO: Must be deleted, only for debugging
     @PostMapping("/demo")
-    ResponseEntity diffDemo(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2) {
-        System.out.println("File 1: " + file1);
-        System.out.println("File 2: " + file2);
-        String url = "https://aintevenmad.ch";
-        return new ResponseEntity<>("{\"url\" : \" " + url + " \"}", HttpStatus.OK);
+    void demo(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2) {
+        logger.info("Received File 1: " + file1.getOriginalFilename() + ", File 2: " + file2.getOriginalFilename());
+
     }
 
     @PostMapping("/pdfcompare")
@@ -43,8 +40,10 @@ public class CompareJobController {
         logger.info("Compare Job after convert. F1: " + compareJob.getFile1() + " F2: " + compareJob.getFile2());
 
         ResponseEntity<byte[]> returnComparison = pdfDiffCompare.pdfCompare(compareJob);
-
         logger.info(returnComparison);
+
+        // Delete all PDFs
+        cleanUp();
         return returnComparison;
     }
 
@@ -53,6 +52,7 @@ public class CompareJobController {
         CompareJob compareJob = new CompareJob(convert(file1), convert(file2));
         DraftableCompare draftableCompare = new DraftableCompare();
         draftableCompare.draftableCompare(compareJob);
+        cleanUp();
         return new ResponseEntity<>("{\"url\" : \" " + compareJob.getCompareResultUrl() + " \"}", HttpStatus.OK);
     }
 
@@ -67,6 +67,18 @@ public class CompareJobController {
             e.printStackTrace();
         }
         return convFile;
+    }
+
+    private void cleanUp() {
+        File folder = new File(".");
+        File fileList[] = folder.listFiles();
+        for (int i = 0; i < fileList.length; i++) {
+            String pes = fileList[i].getName();
+            if (pes.endsWith(".pdf")) {
+                logger.info("DELETING FILE: " + fileList[i]);
+                fileList[i].delete();
+            }
+        }
     }
 
 

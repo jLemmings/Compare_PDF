@@ -116,10 +116,6 @@ export class MainComponent implements OnInit {
         this.error = null; // clear error
     }
 
-    getInt(value: number): number {
-        return Math.round(value);
-    }
-
     /**
      * Page rendered callback, which is called when a page is rendered (called multiple times)
      */
@@ -167,7 +163,7 @@ export class MainComponent implements OnInit {
         const formModel = this.prepareSave();
         console.log(formModel);
         this.loading = true;
-        this.http.post('http://localhost:8080/demo', formModel)
+        this.http.post('http://localhost:8080/draftable', formModel)
             .subscribe((response: ApiResponseModel) => {
                 console.log(response);
                 this.comparejobdataService.url = response.url;
@@ -184,7 +180,7 @@ export class MainComponent implements OnInit {
         const formModel = this.prepareSave();
         this.loading = true;
         console.log('Formmodel: ', formModel);
-        this.http.post('http://localhost:8080/pdfdiffLocal', formModel, {observe: 'response', responseType: 'arraybuffer'})
+        this.http.post('http://localhost:8080/pdfcompare', formModel, {observe: 'response', responseType: 'arraybuffer'})
             .subscribe(response => {
                 console.log('response: ', response.body);
                 fileResponse = response.body;
