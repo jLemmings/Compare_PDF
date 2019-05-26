@@ -43,12 +43,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.draftable.api.client</groupId>
             <artifactId>draftable-compare-api</artifactId>
@@ -64,8 +62,12 @@
             <artifactId>groupdocs-comparison</artifactId>
             <version>19.3</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.1.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
